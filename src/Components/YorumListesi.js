@@ -12,7 +12,7 @@ const YorumListesii = (props) => {
                 <span className="header">{yorum.display_name}</span>
                 <div className="description">{yorum.body}</div>
               </div>
-            </div>{" "}
+            </div>
           </div>
         );
       })}

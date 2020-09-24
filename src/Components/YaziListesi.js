@@ -1,14 +1,14 @@
-import Axios from "axios";
+import { api } from "../api";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 const YaziListesi = (props) => {
   const [yaziListesi, setYaziListesi] = useState([]);
   useEffect(() => {
-    Axios.get("https://react-yazi-yorum.herokuapp.com/posts").then(
-      (response) => {
+    api()
+      .get("/posts")
+      .then((response) => {
         setYaziListesi(response.data);
-      }
-    );
+      });
   }, []);
   return (
     <div className="ui relaxed divided list">

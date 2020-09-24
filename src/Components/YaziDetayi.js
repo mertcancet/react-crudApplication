@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import YaziYorumlari from "./YaziYorumlari";
+import { api } from "../api";
+import { Link } from "react-router-dom";
+import SilModal from "./SilModal";
 
 const YaziDetayi = (props) => {
   const [yaziDetayi, setYaziDetayi] = useState({});
@@ -8,11 +11,8 @@ const YaziDetayi = (props) => {
   const { id } = props.match.params;
 
   const handleCommentSubmit = (yorum) => {
-    axios
-      .post(
-        `https://react-yazi-yorum.herokuapp.com/posts/${id}/comments`,
-        yorum
-      )
+    api()
+      .post(`posts/${id}/comments`, yorum)
       .then((response) => {
         setYorumlar([...yorumlar, response.data]);
       })
@@ -36,11 +36,17 @@ const YaziDetayi = (props) => {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  });
   return (
     <React.Fragment>
       <h2>{yaziDetayi.title}</h2>
       <p>{yaziDetayi.created_at}</p>
+      <div className="ui buttons">
+        <Link to={`/posts/${yaziDetayi.id}/edit`} className="ui blue button">
+          Düzenle
+        </Link>
+        <SilModal yazi={yaziDetayi} push={props.history.push} />
+      </div>
       <p>{yaziDetayi.content}</p>
       <YaziYorumlari yorumlar={yorumlar} handleSubmit={handleCommentSubmit} />
     </React.Fragment>
